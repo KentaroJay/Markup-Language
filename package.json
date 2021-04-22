@@ -1,0 +1,26 @@
+{
+  "name": "markup-language",
+  "version": "1.0.0",
+  "description": "筑波大学の「マークアップ言語」で扱うファイルのレポジトリ。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KentaroJay/Markup-Language.git"
+  },
+  "keywords": [
+    "Markup",
+    "Language"
+  ],
+  "author": "Kentaro Takahashi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KentaroJay/Markup-Language/issues"
+  },
+  "homepage": "https://github.com/KentaroJay/Markup-Language#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
