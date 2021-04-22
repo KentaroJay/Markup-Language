@@ -1,11 +1,7 @@
 name: Deploy to Server
-on:
-  push:
-    tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
 
 env:
-  theme_name: my-theme
+  theme_name: markup-language
 
 jobs:
   build:
