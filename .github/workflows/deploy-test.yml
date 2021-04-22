@@ -24,4 +24,4 @@ jobs:
           ssh_port: ${{ secrets.SSH_PORT }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           source_path: ./sync_files/*
-          destination_path: ~/shan333.cn
+          destination_path: ~/home/s2113517/www/source/
