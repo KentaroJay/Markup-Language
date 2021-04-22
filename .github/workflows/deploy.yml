@@ -1,33 +1,21 @@
-name: Deploy to Server
+name: deploy to remote
 
-env:
-  theme_name: markup-language
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npx gulp dist
-    - run: cd dist/ && zip -r ${{ env.theme_name }}.zip ${{ env.theme_name }}/ && mv ${{ env.theme_name }}.zip ${GITHUB_WORKSPACE}
-
-    - name: rsync deployments
-      uses: burnett01/rsync-deployments@4.1
-      with:
-        switches: -avzr
-        path: ${{ env.theme_name }}.zip
-        remote_path: ${{ secrets.DEPLOY_HOST_PATH }}
-        remote_host: ${{ secrets.DEPLOY_HOST_SERVER }}
-        remote_port: ${{ secrets.DEPLOY_PORT_SERVER }}
-        remote_user: ${{ secrets.DEPLOY_USER_SERVER }}
-        remote_key: ${{ secrets.DEPLOY_KEY_SERVER }}
+      - uses: actions/checkout@v1
+      - name: gulp build
+        uses: actions/setup-node@v1
+      - run: yarn install && yarn build
+      - name: ssh key generate
+        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: rsync deploy
+        run: rsync -avur -e "ssh -p 22 -i ~/.ssh/icho" ./sync_files/ --exclude '*.pdf' s2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/

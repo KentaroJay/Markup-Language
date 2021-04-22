@@ -19,8 +19,5 @@
   "bugs": {
     "url": "https://github.com/KentaroJay/Markup-Language/issues"
   },
-  "homepage": "https://github.com/KentaroJay/Markup-Language#readme",
-  "devDependencies": {
-    "gulp": "^4.0.2"
-  }
+  "homepage": "https://github.com/KentaroJay/Markup-Language#readme"
 }
