@@ -18,4 +18,4 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: rsync deploy
-        run: rsync -avur -e "ssh -p 22 -i ~/.ssh/icho" ./sync_files/ --exclude '*.pdf' s2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/
+        run: rsync -avur -e "ssh -p 22 -i key" --delete ./sync_files/ --exclude '*.pdf' s2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/
