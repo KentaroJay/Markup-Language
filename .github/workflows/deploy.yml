@@ -18,4 +18,4 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: rsync deploy
-        run: rsync -azvur -e "ssh -p 22 -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --delete ./sync_files/ --exclude *.pdf s2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/
+        run: rsync -azvur -e "ssh -p 22 -i key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete --exclude '*.pdf' ./sync_files/ s2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/
