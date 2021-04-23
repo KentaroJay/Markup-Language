@@ -1,21 +1,37 @@
-name: deploy to remote
+name: Deployment
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - name: gulp build
-        uses: actions/setup-node@v1
-      - run: yarn install
-      - name: ssh key generate
-        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: rsync deploy
-        run: rsync -auzrv -e "ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22" --delete --exclude '*.pdf' ./sync_files/* s2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v1.1.0
+      with:
+        version: 12.x
+
+    - name: Install dependencies
+      run: |
+        composer install -o
+        yarn
+    - name: Build
+      run: yarn build
+
+    - name: Sync
+      env:
+        dest: 's2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/'
+      run: |
+        echo "${{secrets.SSH_PRIVATE_KEY}}" > deploy_key
+        chmod 600 ./deploy_key
+        rsync -chav --delete \
+          -e 'ssh -i ./deploy_key -o StrictHostKeyChecking=no' \
+          --exclude /deploy_key \
+          --exclude /.git/ \
+          --exclude /.github/ \
+          --exclude /node_modules/ \
+          ./ ${{env.dest}}
