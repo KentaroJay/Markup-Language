@@ -9,19 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-    - uses: actions/setup-node@v1.1.0
-      with:
-        version: 12.x
-
-    - name: Install dependencies
-      run: |
-        composer install -o
-        yarn
-    - name: Build
-      run: yarn build
-
     - name: Sync
       env:
         dest: 's2113517@icho.u.tsukuba.ac.jp:/home/s2113517/www/course/'
